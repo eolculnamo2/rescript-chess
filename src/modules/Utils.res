@@ -1,3 +1,4 @@
+exception CellNotFound
 let getTeamFromPieceType = pieceType => {
   switch pieceType {
   | Game.Blank => None
@@ -8,4 +9,11 @@ let getTeamFromPieceType = pieceType => {
   | Game.QueenCell(team) => Some(team)
   | Game.KingCell(team) => Some(team)
   }
+}
+
+let isCellOccupied = (cellId, cells: array<Game.cell>) => {
+  switch cells-> Js.Array2.find(c => c.id == cellId) {
+    | Some(c) => c.pieceType != Game.Blank
+    | None => raise(CellNotFound)
+   }
 }
