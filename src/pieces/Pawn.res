@@ -26,14 +26,14 @@ let getMoveOptions = (id, team, cells: array<Game.cell>) => {
         ->Belt.Option.flatMap(c => Utils.getTeamFromPieceType(c.pieceType))
       switch leftDiaganolTeam {
       | Some(t) =>
-        if t != Game.White {
+        if t != Game.White && Boundaries.isLeftBoundary(id) == false {
           let _ = previews->Js.Array2.push(id - Game.width - 1)
         }
       | _ => ()
       }
       switch rightDiaganolTeam {
       | Some(t) =>
-        if t != Game.White {
+        if t != Game.White && Boundaries.isRightBoundary(id) == false {
           let _ = previews->Js.Array2.push(id - Game.width + 1)
         }
       | _ => ()
@@ -64,14 +64,14 @@ let getMoveOptions = (id, team, cells: array<Game.cell>) => {
         ->Belt.Option.flatMap(c => Utils.getTeamFromPieceType(c.pieceType))
       switch leftDiaganolTeam {
       | Some(t) =>
-        if t != Game.Black {
+        if t != Game.Black && Boundaries.isLeftBoundary(id) == false {
           let _ = previews->Js.Array2.push(id + Game.width - 1)
         }
       | _ => ()
       }
       switch rightDiaganolTeam {
       | Some(t) =>
-        if t != Game.Black {
+        if t != Game.Black && Boundaries.isRightBoundary(id) == false {
           let _ = previews->Js.Array2.push(id + Game.width + 1)
         }
       | _ => ()

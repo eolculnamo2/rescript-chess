@@ -30,7 +30,7 @@ let make = (~cell: Game.cell, ~handleClick) => {
       (),
     )}>
     {switch cell.pieceType {
-    | Game.Blank => <> /* {cell.id->Belt.Int.toString->React.string} */ </>
+    | Game.Blank => <> {cell.id->Belt.Int.toString->React.string} </>
     | Game.PawnCell(team) => <Pawn team />
     | Game.RookCell(team) => <Rook team />
     | Game.KnightCell(team) => <Knight team />

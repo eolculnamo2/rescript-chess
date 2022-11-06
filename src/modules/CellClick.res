@@ -2,6 +2,7 @@ exception InvalidState(string)
 let createMoveOptions = (id, pieceType, cells) => {
   switch pieceType {
   | Game.PawnCell(t) => Pawn.getMoveOptions(id, t, cells)
+  | Game.RookCell(t) => Rook.getMoveOptions(id, t, cells)
   | _ => []
   }
 }
@@ -34,7 +35,7 @@ let make = (state: Game.boardState, clickedId) => {
 
     | (_, _) => {
         ...state,
-        cells: state.cells->Belt.Array.mapWithIndex((i, c) => {
+        cells: state.cells->Belt.Array.map(c => {
           {...c, cellState: None}
         }),
       }
@@ -42,7 +43,7 @@ let make = (state: Game.boardState, clickedId) => {
 
   | Selected => {
       ...state,
-      cells: state.cells->Belt.Array.mapWithIndex((i, c) => {
+      cells: state.cells->Belt.Array.map(c => {
         {...c, cellState: None}
       }),
     }
