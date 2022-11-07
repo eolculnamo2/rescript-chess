@@ -3,6 +3,7 @@ let createMoveOptions = (id, pieceType, cells) => {
   switch pieceType {
   | Game.PawnCell(t) => Pawn.getMoveOptions(id, t, cells)
   | Game.RookCell(t) => Rook.getMoveOptions(id, t, cells)
+  | Game.KnightCell(t) => Knight.getMoveOptions(id, t, cells)
   | _ => []
   }
 }
@@ -54,7 +55,7 @@ let make = (state: Game.boardState, clickedId) => {
       | None => raise(InvalidState("Preview cell selected without a cell in the Selected State"))
       }
       {
-        ...state,
+        /* ...state, */
         turn: alternateTurn(state.turn),
         cells: state.cells->Belt.Array.mapWithIndex((i, c) => {
           if c.id == clickedId {

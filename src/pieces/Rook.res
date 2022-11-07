@@ -70,18 +70,13 @@ let rec addHorizontalOptions = (~moveOptions=[], id, team, cells: array<Game.cel
 }
 
 let getMoveOptions = (id, team, cells: array<Game.cell>) => {
-  switch team {
-  | Game.White => {
-      let upOptions = addOptionsTo0(id, team, cells)
-      let downOptions = addOptionsToArea(id, team, cells)
-      let horizontalOptionsLeft = addHorizontalOptions(id, team, cells, Left)
-      let horizontalOptionsRight = addHorizontalOptions(id, team, cells, Right)
-      Belt.Array.concatMany([upOptions, downOptions, horizontalOptionsLeft, horizontalOptionsRight])
-    }
-
-  | Game.Black => []
-  }
+  let upOptions = addOptionsTo0(id, team, cells)
+  let downOptions = addOptionsToArea(id, team, cells)
+  let horizontalOptionsLeft = addHorizontalOptions(id, team, cells, Left)
+  let horizontalOptionsRight = addHorizontalOptions(id, team, cells, Right)
+  Belt.Array.concatMany([upOptions, downOptions, horizontalOptionsLeft, horizontalOptionsRight])
 }
+
 @react.component
 let make = (~team: Game.team) => {
   <Piece
