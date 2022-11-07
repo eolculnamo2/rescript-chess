@@ -1,6 +1,6 @@
 module Cells = {
   let blackKing = 4
-  let whiteKing = 60
+  let whiteKing =  36 //60
   let whiteQueen = 59
   let blackQueen = 3
   let blackRook = (0, 7)

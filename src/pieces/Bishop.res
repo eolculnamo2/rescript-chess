@@ -7,12 +7,14 @@ let rec getOptionsByDirection = (~moveOptions=[], id, team, cells, direction: bi
   | BottomLeft => id + Game.width - 1
   | BottomRight => id + Game.width + 1
   }
-  let isOutOfBounds = nextId > Game.area || nextId < 0 
+  let isOutOfBounds = nextId > Game.area || nextId < 0
   let isBoundaryExceptInitialId = Boundaries.isBoundary(id) && Belt.Array.length(moveOptions) > 0
-  let initialIdStops = Belt.Array.length(moveOptions) == 0 && switch direction {
-    | TopLeft | BottomLeft => Boundaries.isLeftBoundary(id)
-    | TopRight | BottomRight => Boundaries.isRightBoundary(id)
-  }
+  let initialIdStops =
+    Belt.Array.length(moveOptions) == 0 &&
+      switch direction {
+      | TopLeft | BottomLeft => Boundaries.isLeftBoundary(id)
+      | TopRight | BottomRight => Boundaries.isRightBoundary(id)
+      }
   if isOutOfBounds || isBoundaryExceptInitialId || initialIdStops {
     moveOptions
   } else {
@@ -52,12 +54,13 @@ let getMoveOptions = (id, team, cells: array<Game.cell>) => {
   ])
 }
 @react.component
-let make = (~team: Game.team) => {
+let make = (~team: Game.team, ~turn) => {
   <Piece
     image={switch team {
     | White => "/images/white_bishop.png"
     | Black => "/images/black_bishop.png"
     }}
     pieceName="Bishop"
+    turn
   />
 }

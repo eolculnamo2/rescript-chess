@@ -76,12 +76,13 @@ let getMoveOptions = (id, team, cells: array<Game.cell>) => {
 }
 
 @react.component
-let make = (~team: Game.team) => {
+let make = (~team: Game.team, ~turn) => {
   <Piece
     image={switch team {
     | White => "/images/white_rook.png"
     | Black => "/images/black_rook.png"
     }}
     pieceName="Rook"
+    turn
   />
 }

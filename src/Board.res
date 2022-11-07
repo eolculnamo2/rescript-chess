@@ -27,6 +27,8 @@ let make = () => {
       <div
         style={ReactDOM.Style.make(
           ~border="4px solid black",
+          ~transform=`rotate(${state.turn == Game.Black ? "180deg" : "0"})`,
+          ~transition="all 1s",
           ~display="flex",
           ~flexWrap="wrap",
           ~maxWidth={boardWidth},
@@ -40,6 +42,7 @@ let make = () => {
             }}
             key={"cell" ++ Belt.Int.toString(i)}
             cell
+            turn={state.turn}
           />
         })
         ->React.array}

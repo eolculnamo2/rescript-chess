@@ -50,7 +50,7 @@ let getMoveOptions = (id, team, cells: array<Game.cell>) => {
         // only include second option if no piece is blocking from code above
         previews->Belt.Array.length > 0 &&
         Init.Cells.blackPawns->Js.Array2.includes(id) &&
-          Utils.isCellOccupied(id + Game.width * 2, cells) == false
+        Utils.isCellOccupied(id + Game.width * 2, cells) == false
       ) {
         let _ = previews->Js.Array2.push(id + Game.width * 2)
       }
@@ -82,12 +82,13 @@ let getMoveOptions = (id, team, cells: array<Game.cell>) => {
 }
 
 @react.component
-let make = (~team: Game.team) => {
+let make = (~team: Game.team, ~turn) => {
   <Piece
     image={switch team {
     | White => "/images/white_pawn.png"
     | Black => "/images/black_pawn.png"
     }}
     pieceName="Pawn"
+    turn
   />
 }

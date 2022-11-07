@@ -18,7 +18,7 @@ let getBgColor = (id, cellState) => {
 }
 
 @react.component
-let make = (~cell: Game.cell, ~handleClick) => {
+let make = (~cell: Game.cell, ~handleClick, ~turn) => {
   <div
     onClick={_ => handleClick(cell.id)}
     style={ReactDOM.Style.make(
@@ -31,12 +31,12 @@ let make = (~cell: Game.cell, ~handleClick) => {
     )}>
     {switch cell.pieceType {
     | Game.Blank => <> {cell.id->Belt.Int.toString->React.string} </>
-    | Game.PawnCell(team) => <Pawn team />
-    | Game.RookCell(team) => <Rook team />
-    | Game.KnightCell(team) => <Knight team />
-    | Game.BishopCell(team) => <Bishop team />
-    | Game.KingCell(team) => <King team />
-    | Game.QueenCell(team) => <Queen team />
+    | Game.PawnCell(team) => <Pawn team turn />
+    | Game.RookCell(team) => <Rook team turn />
+    | Game.KnightCell(team) => <Knight team turn />
+    | Game.BishopCell(team) => <Bishop team turn />
+    | Game.KingCell(team) => <King team turn />
+    | Game.QueenCell(team) => <Queen team turn />
     }}
   </div>
 }
