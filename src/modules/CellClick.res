@@ -4,6 +4,7 @@ let createMoveOptions = (id, pieceType, cells) => {
   | Game.PawnCell(t) => Pawn.getMoveOptions(id, t, cells)
   | Game.RookCell(t) => Rook.getMoveOptions(id, t, cells)
   | Game.KnightCell(t) => Knight.getMoveOptions(id, t, cells)
+  | Game.BishopCell(t) => Bishop.getMoveOptions(id, t, cells)
   | _ => []
   }
 }

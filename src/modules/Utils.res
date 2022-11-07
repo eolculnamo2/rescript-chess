@@ -1,4 +1,4 @@
-exception CellNotFound
+exception CellNotFound(string)
 let getTeamFromPieceType = pieceType => {
   switch pieceType {
   | Game.Blank => None
@@ -14,6 +14,18 @@ let getTeamFromPieceType = pieceType => {
 let isCellOccupied = (cellId, cells: array<Game.cell>) => {
   switch cells-> Js.Array2.find(c => c.id == cellId) {
     | Some(c) => c.pieceType != Game.Blank
-    | None => raise(CellNotFound)
+    | None => raise(CellNotFound("No cell found in isCellOccupied"))
    }
 }
+let checkOppositeTeam = (id, cells: array<Game.cell>, team) => {
+  let currentCell = switch cells->Belt.Array.get(id) {
+    | Some(c) => c
+    | None => raise(CellNotFound(`No currentCell in checkOppositeTeam at id ${id -> Belt.Int.toString}`))
+  }
+  let currentCellTeam = getTeamFromPieceType(currentCell.pieceType)
+  switch currentCellTeam {
+  | Some(t) => t != team
+  | None => false
+  }
+}
+

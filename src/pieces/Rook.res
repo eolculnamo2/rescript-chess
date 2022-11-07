@@ -1,16 +1,11 @@
-let checkOppositeTeam = (id, cells: array<Game.cell>, team) => {
-  let currentCell = cells->Belt.Array.get(id)->Belt.Option.getExn
-  let currentCellTeam = Utils.getTeamFromPieceType(currentCell.pieceType)
-  switch currentCellTeam {
-  | Some(t) => t != team
-  | None => false
-  }
-}
-
+exception CellNotFound(string)
 let rec addOptionsTo0 = (~moveOptions=[], id, team, cells: array<Game.cell>) => {
-  let isOppositeTeam = checkOppositeTeam(id, cells, team)
+  let isOppositeTeam = Utils.checkOppositeTeam(id, cells, team)
   if id > Game.width && isOppositeTeam == false {
-    let nextCell = cells->Belt.Array.get(id - Game.width)->Belt.Option.getExn
+    let nextCell = switch cells->Belt.Array.get(id - Game.width) {
+      | Some(c) => c
+      | None => raise(CellNotFound("No nextCell in addOptionsTo0"))
+    }
     switch Utils.getTeamFromPieceType(nextCell.pieceType) {
     | Some(t) if t == team => moveOptions
     | Some(_) | None =>
@@ -26,9 +21,12 @@ let rec addOptionsTo0 = (~moveOptions=[], id, team, cells: array<Game.cell>) => 
   }
 }
 let rec addOptionsToArea = (~moveOptions=[], id, team, cells: array<Game.cell>) => {
-  let isOppositeTeam = checkOppositeTeam(id, cells, team)
-  if id < Game.area && isOppositeTeam == false {
-    let nextCell = cells->Belt.Array.get(id + Game.width)->Belt.Option.getExn
+  let isOppositeTeam = Utils.checkOppositeTeam(id, cells, team)
+  if id < Game.area - Game.width && isOppositeTeam == false {
+    let nextCell = switch cells->Belt.Array.get(id + Game.width)  {
+      | Some(c) => c
+      | None => raise(CellNotFound(`No nextCell in addOptionsToArea with id: ${id->Belt.Int.toString}`))
+    }
     switch Utils.getTeamFromPieceType(nextCell.pieceType) {
     | Some(t) if t == team => moveOptions
     | Some(_) | None =>
@@ -46,7 +44,7 @@ let rec addOptionsToArea = (~moveOptions=[], id, team, cells: array<Game.cell>) 
 
 type horizontalDir = Left | Right
 let rec addHorizontalOptions = (~moveOptions=[], id, team, cells: array<Game.cell>, direction) => {
-  let isOppositeTeam = checkOppositeTeam(id, cells, team)
+  let isOppositeTeam = Utils.checkOppositeTeam(id, cells, team)
   let isBoundaryCell =
     direction == Left ? Boundaries.isLeftBoundary(id) : Boundaries.isRightBoundary(id)
   let nextId = direction == Left ? id - 1 : id + 1
