@@ -28,7 +28,7 @@ let make = () => {
         style={ReactDOM.Style.make(
           ~border="4px solid black",
           ~transform=`rotate(${state.turn == Game.Black ? "180deg" : "0"})`,
-          ~transition="all 1s",
+          ~transition="all ease-in-out 1s",
           ~display="flex",
           ~flexWrap="wrap",
           ~maxWidth={boardWidth},

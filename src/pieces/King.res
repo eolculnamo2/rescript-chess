@@ -1,28 +1,56 @@
+let isOwnTeamCell = (id, team, cells: array<Game.cell>): bool => {
+  let cell = cells->Belt.Array.get(id)
+  switch cell {
+  | Some(c) =>
+    Utils.getTeamFromPieceType(c.pieceType)
+    ->Belt.Option.map(t => t == team)
+    ->Belt.Option.getWithDefault(false)
+
+  | None => false
+  }
+}
+
 // todo check if own team, etc
 let getMoveOptions = (id, team, cells: array<Game.cell>) => {
   let moveOptions = []
-  if id - Game.width - 1 > 0 {
+
+  let topRight = id - Game.width - 1
+  if topRight > 0 && isOwnTeamCell(topRight, team, cells) == false {
     let _ = moveOptions->Js.Array2.push(id - Game.width - 1)
   }
-  if id - Game.width > 0 {
+
+  let top = id - Game.width
+  if top > 0 && isOwnTeamCell(top, team, cells) == false {
     let _ = moveOptions->Js.Array2.push(id - Game.width)
   }
-  if id - Game.width + 1 > 0 {
+
+  let topLeft = id - Game.width + 1 
+  if topLeft > 0 && isOwnTeamCell(topLeft, team, cells) == false {
     let _ = moveOptions->Js.Array2.push(id - Game.width + 1)
   }
-  if Boundaries.isRightBoundary(id - 1) == false {
+
+  let left = id - 1
+  if Boundaries.isRightBoundary(left) == false && isOwnTeamCell(left, team, cells) == false  {
     let _ = moveOptions->Js.Array2.push(id - 1)
   }
-  if Boundaries.isLeftBoundary(id + 1) == false {
+
+  let right = id + 1
+  if Boundaries.isLeftBoundary(right) == false && isOwnTeamCell(right, team, cells) == false  {
     let _ = moveOptions->Js.Array2.push(id + 1)
   }
-  if id + Game.width - 1 < Game.area {
+
+  let bottomRight = id + Game.width - 1
+  if bottomRight < Game.area && isOwnTeamCell(bottomRight, team, cells) == false {
     let _ = moveOptions->Js.Array2.push(id + Game.width - 1)
   }
-  if id + Game.width + 1 < Game.area {
+
+  let bottomLeft = id + Game.width + 1
+  if bottomLeft < Game.area && isOwnTeamCell(bottomLeft, team, cells) == false {
     let _ = moveOptions->Js.Array2.push(id + Game.width + 1)
   }
-  if id + Game.width < Game.area {
+
+  let bottom = id + Game.width
+  if  bottom < Game.area && isOwnTeamCell(bottom, team, cells) == false {
     let _ = moveOptions->Js.Array2.push(id + Game.width)
   }
   moveOptions
