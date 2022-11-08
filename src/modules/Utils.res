@@ -29,3 +29,14 @@ let checkOppositeTeam = (id, cells: array<Game.cell>, team) => {
   }
 }
 
+let isOwnTeamCell = (id, team, cells: array<Game.cell>): bool => {
+  let cell = cells->Belt.Array.get(id)
+  switch cell {
+  | Some(c) =>
+    getTeamFromPieceType(c.pieceType)
+    ->Belt.Option.map(t => t == team)
+    ->Belt.Option.getWithDefault(false)
+
+  | None => false
+  }
+}
