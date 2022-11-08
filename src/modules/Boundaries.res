@@ -19,3 +19,5 @@ let rec crossesHorizontalBoundary = (start, end) => {
     crossesHorizontalBoundary(start + 1, end)
   }
 }
+
+let isInBounds = (id) => id >= 0 && id < Game.area

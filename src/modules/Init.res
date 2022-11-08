@@ -26,6 +26,7 @@ module Cells = {
 
       let _ = cells->Js.Array2.push({
         id: i,
+        threatState: (false, false),
         cellState: Game.None,
         pieceType: if whitePawn->Belt.Option.isSome {
           Game.PawnCell(Game.White)

@@ -1,13 +1,18 @@
 let state: Game.boardState = {
   cells: Init.Cells.make(),
   turn: Game.White,
+  winner: None,
 }
 
-type actions = MakePlay | CellClicked(int)
-let reducer = (state, action) => {
+type actions = CellClicked(int)
+let reducer = (state: Game.boardState, action) => {
   switch action {
-  | MakePlay => state
-  | CellClicked(id) => CellClick.make(state, id)
+  | CellClicked(id) =>
+    if Belt.Option.isNone(state.winner) {
+      CellClick.make(state, id)
+    } else {
+      state
+    }
   }
 }
 
@@ -17,6 +22,13 @@ let make = () => {
   let (state, dispatch) = React.useReducer(reducer, state)
 
   <>
+    {<h2>
+      {switch state.winner {
+      | Some(Game.White) => "White wins!"
+      | Some(Game.Black) => "Black wins!"
+      | None => ""
+      }->React.string}
+    </h2>}
     <div
       style={ReactDOM.Style.make(
         ~marginBottom="2rem",

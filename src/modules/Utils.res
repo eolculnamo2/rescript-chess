@@ -40,3 +40,12 @@ let isOwnTeamCell = (id, team, cells: array<Game.cell>): bool => {
   | None => false
   }
 }
+
+let updateThreatState = (prevThreat, team, isThreat) => {
+  let (prevWhite, prevBlack) = prevThreat
+  switch team {
+    | Game.White => (isThreat, prevBlack)
+    | Game.Black => (prevWhite, isThreat)
+  }
+}
+
